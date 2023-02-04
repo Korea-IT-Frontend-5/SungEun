@@ -1,0 +1,26 @@
+1. export const Wrapper = styled.div``
+   export const flexCenter = css`
+   className
+   이 세가지 개념 및 차이점
+   그리고 className 선언하는 방법
+
+2. 반응형으로 구현하고 싶은데 미디어 쿼리 사용하는 방법 간단하게 설명 필요
+
+3. component/common/form/button.js 파일에서
+   Button함수와 A함수를 같이 만들수 있을까요?
+   만들수 있다면 export default Button과 export default A를 이렇게 두번 사용하니 에러가 나는게요
+   한파일에 export default 두번 선언하면 안되는건가요?
+   
+4. component/member/LoginForm.js 파일에서
+   a태그에도 스타일 주고 싶은데 잘 안됨.
+   a태그 클릭시 alert창 띄우는 방법
+   a태그 클릭시 새 컴포넌트로 넘기고 싶은데 잘 안됨.
+
+5. 그리고 리렉토리 구조는 이렇게 하면 리액트에서는 적절한지
+   봐주시면 좋을것 같습니다.
+
+제가 표현력이 좀 약해서 강사님 잘 이해하실수 있었으면 좋겠습니다. ^^
+
+여기 질문은 모두 배운것 같은데요
+알것도 같고 또 모를것도 같고 해서 
+다시 정리 할겸 강사님께서 다시 잡아주시면 좋을것 같아서 문의 합니다.
