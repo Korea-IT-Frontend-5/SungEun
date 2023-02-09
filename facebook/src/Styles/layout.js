@@ -13,9 +13,14 @@ export const Container = styled.div`
 `;
 
 export const Content = styled.div`
-  // display: flex;
+  display: flex;
+  flex-direction: column;
   // align-items: center;
   text-align: center;
+
+  @media only screen and (min-width: 900px) {
+    flex-direction: row;
+  }
 `;
 
 export const MainTxt = styled.div`
