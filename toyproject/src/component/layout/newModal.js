@@ -4,38 +4,64 @@ import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { Button } from "../../style/button";
 import UsePhoto from "../../images/user/profile.jpg";
 import UsePhoto2 from "../../images/user/profile02.jpg";
-import useInputs from "../common/form/useInputs";
 import { useState } from "react";
 
-function NewModal({setModalPop, setListPageView, setListPageArray}) {
-  const [data, setDate] = useState([]);
+function NewModal({showAddToastMessage, setModalPop}) {
+  const [errorObjView, setErrorObjView] = useState(false);
+  const [errorUserNameView, setErrorUserNameView] = useState(false);
 
-  const [{ obj, username }] = useInputs({
-    obj: '',
-    username: '',
-  })
-  // console.log(useInputs)
-
+  // Modal창 닫기
   const modalClose = () => {
     setModalPop(false);
   }
 
-  const listPageOpen = () => {
-    setListPageView(true);
+  // form 입력정보
+  const onChangeValue = (e) => {
+    const value = e.target.value;
+    if(value == '' && e.target.name == 'obj') return setErrorObjView(true);
+    if(value == '' && e.target.name == 'username') return setErrorUserNameView(true);
+    setErrorObjView(false);
+    setErrorUserNameView(false);
+  }
+
+  // 등록일
+  let now = new Date();
+  let dayNow = now.toLocaleString('ko-kr');
+
+  // 추가 버튼 클릭
+  const listPageOpen = (e) => {
+    e.preventDefault();
+
+    let setDayNow = '';
+    setDayNow = dayNow;    
+
+    const obj = e.target.obj.value;
+    const username = e.target.username.value;
+
+    if(!obj) return setErrorObjView(true);
+    if(!username) return setErrorUserNameView(true);
+
+    setErrorObjView(false);
+    setErrorUserNameView(false);
     setModalPop(false);
-    // setListPageArray(listPageInxView => [[obj, username] , ...listPageInxView])
+    showAddToastMessage(obj, username, setDayNow);
   }
 
   return (
     <S.ModalWrap>
       <S.ModalContainer>
         <S.ModalTitle>게시글 등록하기</S.ModalTitle>
-        <S.ModalForm>
+        <S.ModalForm onSubmit={listPageOpen}>
           <S.ModalCont>
             {/* 내용 */}
             <S.ModalInputBox>
               <label htmlFor="obj">내용</label>
-              <textarea id="obj" name="obj" placeholder="내용"></textarea>
+              <textarea 
+                name="obj" 
+                placeholder="내용" 
+                onChange={onChangeValue}
+              ></textarea>
+              <S.Error visible={errorObjView}>내용을 입력해 주세요.</S.Error>
             </S.ModalInputBox>
             {/* 내용 사진 등록 */}
             <S.ModalInputBox>
@@ -84,7 +110,12 @@ function NewModal({setModalPop, setListPageView, setListPageArray}) {
             {/* 작성자명 */}
             <S.ModalInputBox>
               <label htmlFor="username">작성자명</label>
-              <input type="text" id="username" name="username" placeholder="작성자명" />
+              <input type="text" 
+                name="username" 
+                placeholder="작성자명"
+                onChange={onChangeValue}
+              />
+              <S.Error visible={errorUserNameView}>작성자 성함을 입력해 주세요.</S.Error>
             </S.ModalInputBox>
             {/* 프로필 사진 등록 */}
             <S.ModalInputBox>
@@ -103,7 +134,7 @@ function NewModal({setModalPop, setListPageView, setListPageArray}) {
           </S.ModalCont>
           {/* btn */}
           <S.ModalBtnArea>
-            <Button variant={'primary-blue'} size={'auto'} onClick={listPageOpen}>등록</Button>
+            <Button variant={'primary-blue'} size={'auto'}>등록</Button>
             <Button variant={'primary'} size={'auto'} onClick={modalClose}>닫기</Button>
           </S.ModalBtnArea>
         </S.ModalForm>

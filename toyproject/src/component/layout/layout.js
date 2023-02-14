@@ -4,68 +4,86 @@ import { Button } from "../../style/button";
 import NewModal from "./newModal";
 import { useState } from "react";
 import ModifyModal from "./modifyModal";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { Add_Box, Del_Box, Modify_Box, useViewDispatch, useViewState } from "../../context/listDate";
 
 function Layout() {
+  //const [id, setId] = useState(0);
   const [modalPop, setModalPop] = useState(false);
   const [modifyModalPop, setModifyModalPop] = useState(false);
-  const [listPageView, setListPageView ] = useState(false);
-  const [listPageArray, setListPageArray] = useState([]);
+  const listBox = useViewState(); 
+  const dispatch = useViewDispatch();
+  // const [listBox, setListBox] = useState([]);
+
+  //let id = 0;
+  //if (id==0) return;
 
   // 게시글 등록하기 Modal창 띄우시
-  const modalOpen = (setListPageView, setListPageArray) => {
+  const modalOpen = () => {
     setModalPop(true);
-    // setListPageView(setListPageView);
   }
 
-  // 게시글 수정하기 Modal창 띄우기
-  const modifyModalView = (setModifyModalPop) => {
-    setModifyModalPop(setModifyModalPop);
+  // Toast 및 게시글 등록하기
+  const handleAddList = (obj, username, setDayNow) => 
+  new Promise((resolve, reject) => {
+    if(!obj || !username){
+      return reject('Need Fullfilled');
+    }
+    setTimeout(() => {
+      let id = listBox[listBox.length - 1].id + 1;
+      dispatch(Add_Box({id, obj, username, setDayNow})); 
+      resolve(listBox)
+    }, 1000);
+  }).then((res) => {
+    listBox([res, ...listBox]);
+  });
+  const showAddToastMessage = (obj, username, setDayNow) => {
+    toast.promise(handleAddList(obj, username, setDayNow), {
+      pending: 'List Loading',
+      success: 'List Success',
+      error: 'List Error',
+    });
+  };
+
+  // 게시글 삭제
+  const onDelListBox = (id) => {
+    dispatch(Del_Box({ id }));
+  } 
+
+  // 게시글 수정
+  const onModifyListBox = (id, obj, username) => {
+    dispatch(Modify_Box({id, obj, username}))
   }
 
-  // 게시글 등록하기
-  const listView = (e,) => {
-    e.preventDefault(0);
-    setListPageArray(setListPageArray);
-    // console.log(listPageArray)
-    // setListPageArray()
-  }
-  // console.log(listPageView)
-
-  // const commInput = (e) => {
-  //   e.preventDefault();
-  //   let setTodayNow = '';
-  //   setTodayNow = todayNow;    
-
-  //   if (commTxt === '') {
-  //     return;
-  //   }
-  //   setOnCheck(true);
-  //   setCommTxtArray(commentValueList => [[commTxt, setTodayNow], ...commentValueList]);
-  //   setCommTxt('');
-  // };
   return(
     <S.Wrapper>
       <S.Container>
         {/* 게시글 등록하기 Modal창 */}
-        { modalPop && <NewModal setModalPop={setModalPop} setListPageView={setListPageView} /> }  
+        { modalPop && 
+          <NewModal 
+            setModalPop={setModalPop} 
+            showAddToastMessage={showAddToastMessage} /> 
+        }  
         {/* 게시글 수정하기 Modal창 */}
-        { modifyModalPop && <ModifyModal setModifyModalPop={setModifyModalPop} /> }  
+        { modifyModalPop && 
+          <ModifyModal 
+            setModifyModalPop={setModifyModalPop}
+            //showAddTodoToastMessage={showAddTodoToastMessage}
+            onModifyListBox={onModifyListBox} /> 
+        }  
         {/* 게시글 등록하기 버튼 */}
-        <Button variant={'primary-auto'} size={'full'} onClick={modalOpen}>게시글 등록</Button>
+        <Button variant={'primary-auto'} size={'full'} 
+          onClick={modalOpen}
+        >게시글 등록</Button>
         {/* 게시글 배열 */}
-        {/* { listPageView && ( */}
-          <S.ListWrap>
-          {/* { listPageArray.map((ListValue, inx) => { */}
-            {/* console.log(ListValue); */}
-            <List setModifyModalPop={setModifyModalPop} />
-            <List setModifyModalPop={setModifyModalPop} />
-            <List setModifyModalPop={setModifyModalPop} />
-            <List setModifyModalPop={setModifyModalPop} />
-            <List setModifyModalPop={setModifyModalPop} />
-          {/* })} */}
-          </S.ListWrap>
-        {/* )} */}
+        <S.ListWrap>
+          {listBox.map((list, inx) => ( 
+            <List key={inx} id={list.id} obj={list.obj} username={list.username} setDayNow={list.setDayNow} setModifyModalPop={setModifyModalPop} onDelListBox={onDelListBox} />
+          ))}
+        </S.ListWrap>
       </S.Container>
+      <ToastContainer autoClose={1000} theme="colored" />
     </S.Wrapper>
   )
 }

@@ -5,9 +5,11 @@ import { Button } from "../../style/button";
 import UsePhoto from "../../images/user/profile.jpg";
 import UsePhoto2 from "../../images/user/profile02.jpg";
 import useInputs from "../common/form/useInputs";
+import { useViewState } from "../../context/listDate";
 
-function ModifyModal({setModifyModalPop}) {
-
+function ModifyModal({setModifyModalPop, onModifyListBox}) {
+  
+  // 게시글 수정하기 Modal창 닫기
   const modifyModalClose = () => {
     setModifyModalPop(false);
   }

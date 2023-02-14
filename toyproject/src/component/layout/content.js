@@ -8,9 +8,17 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination } from 'swiper';
 import 'swiper/css';
 import 'swiper/css/pagination';
+import { useViewState } from "../../context/listDate";
 
+function Content({obj, setDayNow}) {
+  // 내용 100자까지
+  let objDate = '';
+  if(obj.length > 100){
+    objDate = obj.substr(0, 100) + '...';
+  }else{
+    objDate = obj;
+  }
 
-function Content() {
   return (
     <>
       {/* Swiper Image */}
@@ -32,8 +40,8 @@ function Content() {
       </S.ImgWrap>
       {/* 게시글 내용 */}
       <S.Content>
-        <p>일이삼사오륙칠팔구십 일이삼사오륙칠팔구십 일이삼사오륙칠팔구십 일이삼사오륙칠팔구십 일이삼사오륙칠팔구십 일이삼사오륙칠팔구십 일이삼사오륙칠팔구십 일이삼사오륙칠팔구십 일이삼사오륙칠팔구십 ...</p>
-        <span>2023.02.07 12:40</span>
+        <p>{objDate}</p>
+        <span>{setDayNow}</span>
       </S.Content>
     </>
   );

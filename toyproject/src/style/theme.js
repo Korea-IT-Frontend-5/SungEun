@@ -11,6 +11,7 @@ const PALETTE = {
 };
 
 const FONT_SIZE = {
+  ssmall: '11px',
   small: '14px',
   medium: '16px',
   large: '20px',

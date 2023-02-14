@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { flexCenter } from "./common";
 
 export const Wrapper = styled.div`
   position: relative;
@@ -95,6 +96,8 @@ export const ImgWrap = styled.div`
 
 export const ContWrap = styled.div`
   display:flex;
+  overflow: hidden;
+  height: 133px;
   margin-top: 10px;
   // background-color: pink;
 `;
@@ -187,9 +190,7 @@ export const CommView = styled.div`
   }
 `
 export const CommTextArea = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  ${flexCenter};
 
   textarea {
     margin-right: 5px;
@@ -211,7 +212,7 @@ export const ModalContainer = styled.div`
   top: 50%;
   left: 50%;
   width: 400px;
-  height: 520px;
+  height: 540px;
   padding: 20px;
   background: #fff;
   border-radius: 20px;
@@ -223,7 +224,7 @@ export const ModalTitle = styled.div`
   font-weight: bold;
 `;
 
-export const ModalForm = styled.div`
+export const ModalForm = styled.form`
   /*margin-top: 10px;
   padding: 15px;
   border-radius: 5px;
@@ -250,11 +251,11 @@ export const ModalInputBox = styled.div`
 
   input[type='text'] {
     height: 40px;
-    margin-bottom: 5px;
+    margin-bottom: 5PX;
   }
 
   textarea {
-    margin-bottom: 5px;
+    margin-bottom: 0;
     height: 90px;
   }
 
@@ -262,7 +263,7 @@ export const ModalInputBox = styled.div`
     display: block;
     font-size: 13px;
     font-weight: bold;
-    padding: 10px 0 5px;
+    padding: 5px 0;
   }
 `;
 
@@ -350,8 +351,12 @@ export const ModalPhotoInput = styled.ul`
 `;
 
 export const ModalBtnArea = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  ${flexCenter};
   margin-top: 20px;
+`;
+
+export const Error = styled.p`
+  color: ${({ theme }) => theme.PALETTE.error};
+  font-size: ${({ theme }) => theme.FONT_SIZE.ssmall};
+  visibility: ${({ visible }) => visible ? 'visible' : 'hidden'};
 `;
