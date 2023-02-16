@@ -4,20 +4,7 @@ import { useReducer } from "react";
 import { createContext } from "react";
 import { createAciton } from "./createAction";
 
-const initialState = [
-  {
-    id: '',
-    obj: '',
-    content: '',
-    objImg1: '',
-    objImg2: '',
-    objImg3: '',
-    objImg4: '',
-    objImg5: '',
-    username: '',
-    state: false,
-  }
-];
+const initialState = [];
 
 export const ListContext = createContext();
 export const ListDispatchContext = createContext();

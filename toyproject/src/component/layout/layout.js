@@ -28,7 +28,8 @@ function Layout() {
     }
     if(id == undefined) {
       setTimeout(() => {
-        dispatch(Add_Box({obj, username, setDayNow}));
+        let id = listBox.length + 1;
+        dispatch(Add_Box({id, obj, username, setDayNow}));
       }, 1000);
       resolve(listBox)
     }else{
