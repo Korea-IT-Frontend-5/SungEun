@@ -5,7 +5,7 @@ import { useState } from "react";
 import ModifyModal from "./modifyModal";
 
 function HeaderTit({setModifyModalPop, onModifyListBox, onDelListBox, id, username}) {
-  // console.log(username);
+  
   const modifyModalOpen = (id) => {
     setModifyModalPop(true);
     onModifyListBox(id);

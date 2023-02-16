@@ -9,7 +9,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { Add_Box, Del_Box, Modify_Box, useViewDispatch, useViewState } from "../../context/listDate";
 
 function Layout() {
-  //const [id, setId] = useState(0);
+  // state
   const [modalPop, setModalPop] = useState(false);
   const [modifyModalPop, setModifyModalPop] = useState(false);
   const listBox = useViewState(); 

@@ -9,7 +9,12 @@ function List({ setModifyModalPop, onModifyListBox, onDelListBox, id, obj, usern
       <S.Section>
         {/* userProfile, 수정버튼, 삭제버튼 */}
         <S.Header>
-          <HeaderTit id={id} username={username} setModifyModalPop={setModifyModalPop} onModifyListBox={onModifyListBox} onDelListBox={onDelListBox} />
+          <HeaderTit 
+            id={id} 
+            username={username} 
+            setModifyModalPop={setModifyModalPop} 
+            onModifyListBox={onModifyListBox} 
+            onDelListBox={onDelListBox} />
         </S.Header>
         {/* 이미지 swiper, 게시글 내용 */}
         <S.ContWrap>
