@@ -4,9 +4,11 @@ import { Button } from "../../style/button";
 import { useState } from "react";
 import ModifyModal from "./modifyModal";
 
-function HeaderTit({setModifyModalPop, onDelListBox, id, username}) {
-  const modifyModalOpen = () => {
+function HeaderTit({setModifyModalPop, onModifyListBox, onDelListBox, id, username}) {
+  // console.log(username);
+  const modifyModalOpen = (id) => {
     setModifyModalPop(true);
+    onModifyListBox(id);
   }
 
   return(
@@ -16,11 +18,10 @@ function HeaderTit({setModifyModalPop, onDelListBox, id, username}) {
         <p>{username}</p>
       </S.UserWrap>
       <S.BtnWrap>
-        <Button variant={'primary-blue'} size={'auto'} onClick={modifyModalOpen}>수정</Button>
+        <Button variant={'primary-blue'} size={'auto'} onClick={()=>modifyModalOpen(id)}>수정</Button>
         <Button variant={'primary'} size={'auto'} onClick={()=>onDelListBox(id)}>삭제</Button>
       </S.BtnWrap>
     </>
-    // <div>HEADERTitle</div>
   );
 }
 

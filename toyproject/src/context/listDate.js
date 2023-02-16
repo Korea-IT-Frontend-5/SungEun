@@ -1,19 +1,20 @@
 import { useContext } from "react";
+import { useState } from "react";
 import { useReducer } from "react";
 import { createContext } from "react";
 import { createAciton } from "./createAction";
 
 const initialState = [
   {
-    id: 1,
-    obj: '내용 어쩌구 저쩌구',
-    content: 'content',
+    id: '',
+    obj: '',
+    content: '',
     objImg1: '',
     objImg2: '',
     objImg3: '',
     objImg4: '',
     objImg5: '',
-    username: '홍길동',
+    username: '',
     state: false,
   }
 ];
@@ -29,20 +30,24 @@ export const Modify_Box = createAciton('Modify_Box');
 
 const userBoxReducer = (state, action) => {
   switch(action.type){
-    case 'Add_Box':
+    case 'Add_Box': 
       return [{
-        id: action.payload.id, 
+        id: state.length - 1, 
         obj: action.payload.obj, 
         username: action.payload.username, 
-        setDayNow: action.payload.setDayNow
+        setDayNow: action.payload.setDayNow,
+        state: false,
       }, ...state];
     case 'Del_Box':
       return state.filter((listBox) => listBox.id !== action.payload.id);
     case 'Modify_Box':
-      return state.filter((listBox) => (
-        listBox.obj === action.payload.obj,
-        listBox.username === action.payload.username
-      ));
+      const reState = [...state];
+      const reList = reState.find((list)=>list.id === action.payload.id);
+      reList.obj = action.payload.obj;
+      reList.username = action.payload.username;
+      reList.setDayNow = action.payload.setDayNow;
+      console.log(state)
+      return state;
     default:
       return;
   }

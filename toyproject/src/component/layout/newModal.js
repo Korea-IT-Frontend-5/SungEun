@@ -1,6 +1,6 @@
 import * as S from "../../style/layout";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import { faL, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { Button } from "../../style/button";
 import UsePhoto from "../../images/user/profile.jpg";
 import UsePhoto2 from "../../images/user/profile02.jpg";

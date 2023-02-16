@@ -14,10 +14,6 @@ function Layout() {
   const [modifyModalPop, setModifyModalPop] = useState(false);
   const listBox = useViewState(); 
   const dispatch = useViewDispatch();
-  // const [listBox, setListBox] = useState([]);
-
-  //let id = 0;
-  //if (id==0) return;
 
   // 게시글 등록하기 Modal창 띄우시
   const modalOpen = () => {
@@ -25,21 +21,28 @@ function Layout() {
   }
 
   // Toast 및 게시글 등록하기
-  const handleAddList = (obj, username, setDayNow) => 
+  const handleAddList = (obj, username, setDayNow, id) => 
   new Promise((resolve, reject) => {
     if(!obj || !username){
       return reject('Need Fullfilled');
     }
-    setTimeout(() => {
-      let id = listBox[listBox.length - 1].id + 1;
-      dispatch(Add_Box({id, obj, username, setDayNow})); 
+    if(id == undefined) {
+      setTimeout(() => {
+        dispatch(Add_Box({obj, username, setDayNow}));
+      }, 1000);
       resolve(listBox)
-    }, 1000);
+    }else{
+      setTimeout(() => {
+        dispatch(Modify_Box({id, obj, username, setDayNow}));
+        setModifyModalPop(false);
+      }, 1000);
+      resolve(listBox)
+    }
   }).then((res) => {
     listBox([res, ...listBox]);
   });
-  const showAddToastMessage = (obj, username, setDayNow) => {
-    toast.promise(handleAddList(obj, username, setDayNow), {
+  const showAddToastMessage = (obj, username, setDayNow, id) => {
+    toast.promise(handleAddList(obj, username, setDayNow, id), {
       pending: 'List Loading',
       success: 'List Success',
       error: 'List Error',
@@ -48,12 +51,15 @@ function Layout() {
 
   // 게시글 삭제
   const onDelListBox = (id) => {
-    dispatch(Del_Box({ id }));
+    if(window.confirm('정말 삭제하시겠습니까?')){
+      dispatch(Del_Box({ id }));
+    }
   } 
 
   // 게시글 수정
-  const onModifyListBox = (id, obj, username) => {
-    dispatch(Modify_Box({id, obj, username}))
+  const [findId, setFindId] = useState('');
+  const onModifyListBox = (id) => {
+    setFindId(id);
   }
 
   return(
@@ -61,16 +67,16 @@ function Layout() {
       <S.Container>
         {/* 게시글 등록하기 Modal창 */}
         { modalPop && 
-          <NewModal 
-            setModalPop={setModalPop} 
-            showAddToastMessage={showAddToastMessage} /> 
+        <NewModal 
+          setModalPop={setModalPop} 
+          showAddToastMessage={showAddToastMessage} /> 
         }  
         {/* 게시글 수정하기 Modal창 */}
         { modifyModalPop && 
-          <ModifyModal 
-            setModifyModalPop={setModifyModalPop}
-            //showAddTodoToastMessage={showAddTodoToastMessage}
-            onModifyListBox={onModifyListBox} /> 
+        <ModifyModal 
+          findId={findId}
+          setModifyModalPop={setModifyModalPop}
+          showAddToastMessage={showAddToastMessage} /> 
         }  
         {/* 게시글 등록하기 버튼 */}
         <Button variant={'primary-auto'} size={'full'} 
@@ -78,9 +84,16 @@ function Layout() {
         >게시글 등록</Button>
         {/* 게시글 배열 */}
         <S.ListWrap>
-          {listBox.map((list, inx) => ( 
-            <List key={inx} id={list.id} obj={list.obj} username={list.username} setDayNow={list.setDayNow} setModifyModalPop={setModifyModalPop} onDelListBox={onDelListBox} />
-          ))}
+        {listBox.map((list) => ( 
+          <List key={list.id} 
+            id={list.id} 
+            obj={list.obj} 
+            username={list.username} 
+            setDayNow={list.setDayNow} 
+            setModifyModalPop={setModifyModalPop} 
+            onModifyListBox={onModifyListBox}
+            onDelListBox={onDelListBox} />
+        ))}
         </S.ListWrap>
       </S.Container>
       <ToastContainer autoClose={1000} theme="colored" />

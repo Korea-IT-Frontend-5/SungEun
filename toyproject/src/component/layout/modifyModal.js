@@ -4,26 +4,72 @@ import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { Button } from "../../style/button";
 import UsePhoto from "../../images/user/profile.jpg";
 import UsePhoto2 from "../../images/user/profile02.jpg";
-import useInputs from "../common/form/useInputs";
 import { useViewState } from "../../context/listDate";
+import { useState } from "react";
 
-function ModifyModal({setModifyModalPop, onModifyListBox}) {
+function ModifyModal({setModifyModalPop, showAddToastMessage, findId}) {
+
+  // 에러창 띄우기
+  const [errorObjView, setErrorObjView] = useState(false);
+  const [errorUserNameView, setErrorUserNameView] = useState(false);
+
+  // state
+  const [id, setId] = useState(findId);
+
+  // 수정 데이터 가져오기
+  const listBox = useViewState(); 
+  const listBoxFind = [...listBox];
+  const newListBox = listBoxFind.find((list) => list.id === id);
+  const [obj, setObj] = useState(newListBox.obj);
+  const [username, setUsername] = useState(newListBox.username);
+
+  // form 입력정보
+  const onChangeModifyValue = (e) => {
+    if(e.target.value == ''){
+      if(e.target.name == 'obj') return setErrorObjView(true);
+      if(e.target.name == 'username') return setErrorUserNameView(true);
+    }else{
+      if(e.target.name == 'obj') return (setObj(e.target.value),setErrorObjView(false));
+      if(e.target.name == 'username') return (setUsername(e.target.value),setErrorUserNameView(false));
+    }
+  }
   
+  // 등록일
+  let now = new Date();
+  let dayNow = now.toLocaleString('ko-kr');
+
   // 게시글 수정하기 Modal창 닫기
   const modifyModalClose = () => {
     setModifyModalPop(false);
+  }
+  
+  // 게시글 수정
+  const onModifyListBox = (e) => {
+    e.preventDefault();
+    let setDayNow = '';
+    setDayNow = dayNow;   
+
+    if(!obj) return setErrorObjView(true);
+    if(!username) return setErrorUserNameView(true);
+    
+    setErrorObjView(false);
+    setErrorUserNameView(false);
+    
+    showAddToastMessage(obj, username, setDayNow, id);
+
   }
 
   return (
     <S.ModalWrap>
       <S.ModalContainer>
         <S.ModalTitle>게시글 수정하기</S.ModalTitle>
-        <S.ModalForm>
+        <S.ModalForm onSubmit={onModifyListBox}>
           <S.ModalCont>
             {/* 내용 */}
             <S.ModalInputBox>
               <label htmlFor="obj">내용</label>
-              <textarea id="obj" placeholder="내용"></textarea>
+              <textarea name="obj" placeholder="내용" value={obj} onChange={onChangeModifyValue}></textarea>
+              <S.Error visible={errorObjView}>내용을 입력해 주세요.</S.Error>
             </S.ModalInputBox>
             {/* 내용 사진 등록 */}
             <S.ModalInputBox>
@@ -72,7 +118,8 @@ function ModifyModal({setModifyModalPop, onModifyListBox}) {
             {/* 작성자명 */}
             <S.ModalInputBox>
               <label htmlFor="username">작성자명</label>
-              <input type="text" id="username" name="username" placeholder="작성자명" />
+              <input type="text" name="username" placeholder="작성자명" value={username} onChange={onChangeModifyValue} />
+              <S.Error visible={errorUserNameView}>작성자 성함을 입력해 주세요.</S.Error>
             </S.ModalInputBox>
             {/* 프로필 사진 등록 */}
             <S.ModalInputBox>
@@ -88,7 +135,7 @@ function ModifyModal({setModifyModalPop, onModifyListBox}) {
           </S.ModalCont>
           {/* btn */}
           <S.ModalBtnArea>
-            <Button variant={'primary-blue'} size={'auto'}>등록</Button>
+            <Button variant={'primary-blue'} size={'auto'} type="submit">수정</Button>
             <Button variant={'primary'} size={'auto'} onClick={modifyModalClose}>닫기</Button>
           </S.ModalBtnArea>
         </S.ModalForm>
