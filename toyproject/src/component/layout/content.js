@@ -10,13 +10,13 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import { useViewState } from "../../context/listDate";
 
-function Content({obj, setDayNow}) {
+function Content({list}) {
   // 내용 100자까지
   let objDate = '';
-  if(obj.length > 100){
-    objDate = obj.substr(0, 100) + '...';
+  if(list.obj.length > 100){
+    objDate = list.obj.substr(0, 100) + '...';
   }else{
-    objDate = obj;
+    objDate = list.obj;
   }
 
   return (
@@ -41,7 +41,7 @@ function Content({obj, setDayNow}) {
       {/* 게시글 내용 */}
       <S.Content>
         <p>{objDate}</p>
-        <span>{setDayNow}</span>
+        <span>{list.setDayNow}</span>
       </S.Content>
     </>
   );

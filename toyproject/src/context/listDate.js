@@ -19,7 +19,7 @@ const userBoxReducer = (state, action) => {
   switch(action.type){
     case 'Add_Box': 
       return [{
-        id: state.length - 1, 
+        id: action.payload.id, 
         obj: action.payload.obj, 
         username: action.payload.username, 
         setDayNow: action.payload.setDayNow,

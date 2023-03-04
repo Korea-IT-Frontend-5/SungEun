@@ -5,6 +5,7 @@ import { Button } from "../../style/button";
 import UsePhoto from "../../images/user/profile.jpg";
 import UsePhoto2 from "../../images/user/profile02.jpg";
 import { useState } from "react";
+import useInputs from "../common/form/useInputs";
 
 function NewModal({showAddToastMessage, setModalPop}) {
   const [errorObjView, setErrorObjView] = useState(false);
@@ -16,13 +17,18 @@ function NewModal({showAddToastMessage, setModalPop}) {
   }
 
   // form 입력정보
-  const onChangeValue = (e) => {
-    const value = e.target.value;
-    if(value == '' && e.target.name == 'obj') return setErrorObjView(true);
-    if(value == '' && e.target.name == 'username') return setErrorUserNameView(true);
-    setErrorObjView(false);
-    setErrorUserNameView(false);
-  }
+  const [{ obj, username }, onChangeValue] = useInputs({
+    obj: '',
+    username: '',
+  })
+
+  // const onChangeValue = (e) => {
+  //   const value = e.target.value;
+  //   if(value == '' && e.target.name == 'obj') return setErrorObjView(true);
+  //   if(value == '' && e.target.name == 'username') return setErrorUserNameView(true);
+  //   setErrorObjView(false);
+  //   setErrorUserNameView(false);
+  // }
 
   // 등록일
   let now = new Date();

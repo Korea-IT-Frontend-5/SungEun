@@ -22,26 +22,27 @@ function Layout() {
 
   // Toast 및 게시글 등록하기
   const handleAddList = (obj, username, setDayNow, id) => 
-  new Promise((resolve, reject) => {
-    if(!obj || !username){
-      return reject('Need Fullfilled');
-    }
-    if(id == undefined) {
-      setTimeout(() => {
-        let id = listBox.length + 1;
-        dispatch(Add_Box({id, obj, username, setDayNow}));
-      }, 1000);
-      resolve(listBox)
-    }else{
-      setTimeout(() => {
-        dispatch(Modify_Box({id, obj, username, setDayNow}));
-        setModifyModalPop(false);
-      }, 1000);
-      resolve(listBox)
-    }
-  }).then((res) => {
-    listBox([res, ...listBox]);
-  });
+    new Promise((resolve, reject) => {
+      if(!obj || !username){
+        return reject('Need Fullfilled');
+      }
+      if(id == undefined) {
+        setTimeout(() => {
+          let id = listBox.length + 1;
+          dispatch(Add_Box({id, obj, username, setDayNow}));
+        }, 1000);
+        resolve(listBox)
+      }else{
+        setTimeout(() => {
+          dispatch(Modify_Box({id, obj, username, setDayNow}));
+          setModifyModalPop(false);
+        }, 1000);
+        resolve(listBox)
+      }
+    }).then((res) => {
+      listBox([res, ...listBox]);
+    });
+  
   const showAddToastMessage = (obj, username, setDayNow, id) => {
     toast.promise(handleAddList(obj, username, setDayNow, id), {
       pending: 'List Loading',
@@ -87,10 +88,7 @@ function Layout() {
         <S.ListWrap>
         {listBox.map((list) => ( 
           <List key={list.id} 
-            id={list.id} 
-            obj={list.obj} 
-            username={list.username} 
-            setDayNow={list.setDayNow} 
+            list={list} 
             setModifyModalPop={setModifyModalPop} 
             onModifyListBox={onModifyListBox}
             onDelListBox={onDelListBox} />

@@ -6,6 +6,7 @@ import UsePhoto from "../../images/user/profile.jpg";
 import UsePhoto2 from "../../images/user/profile02.jpg";
 import { useViewState } from "../../context/listDate";
 import { useState } from "react";
+import useInputs from "../common/form/useInputs";
 
 function ModifyModal({setModifyModalPop, showAddToastMessage, findId}) {
 
@@ -13,6 +14,7 @@ function ModifyModal({setModifyModalPop, showAddToastMessage, findId}) {
   const [errorObjView, setErrorObjView] = useState(false);
   const [errorUserNameView, setErrorUserNameView] = useState(false);
 
+  console.log(findId)
   // state
   const [id, setId] = useState(findId);
 
@@ -20,19 +22,23 @@ function ModifyModal({setModifyModalPop, showAddToastMessage, findId}) {
   const listBox = useViewState(); 
   const listBoxFind = [...listBox];
   const newListBox = listBoxFind.find((list) => list.id === id);
-  const [obj, setObj] = useState(newListBox.obj);
-  const [username, setUsername] = useState(newListBox.username);
+  // const [obj, setObj] = useState(newListBox.obj);
+  // const [username, setUsername] = useState(newListBox.username);
 
   // form 입력정보
-  const onChangeModifyValue = (e) => {
-    if(e.target.value == ''){
-      if(e.target.name == 'obj') return setErrorObjView(true);
-      if(e.target.name == 'username') return setErrorUserNameView(true);
-    }else{
-      if(e.target.name == 'obj') return (setObj(e.target.value),setErrorObjView(false));
-      if(e.target.name == 'username') return (setUsername(e.target.value),setErrorUserNameView(false));
-    }
-  }
+  const [{ obj, username }, onChangeModifyValue] = useInputs({
+    obj: newListBox.obj,
+    username: newListBox.username,
+  })
+  // const onChangeModifyValue = (e) => {
+  //   if(e.target.value == ''){
+  //     if(e.target.name == 'obj') return setErrorObjView(true);
+  //     if(e.target.name == 'username') return setErrorUserNameView(true);
+  //   }else{
+  //     if(e.target.name == 'obj') return (setObj(e.target.value),setErrorObjView(false));
+  //     if(e.target.name == 'username') return (setUsername(e.target.value),setErrorUserNameView(false));
+  //   }
+  // }
   
   // 등록일
   let now = new Date();
@@ -43,11 +49,15 @@ function ModifyModal({setModifyModalPop, showAddToastMessage, findId}) {
     setModifyModalPop(false);
   }
   
+
   // 게시글 수정
   const onModifyListBox = (e) => {
     e.preventDefault();
     let setDayNow = '';
     setDayNow = dayNow;   
+
+    console.log(obj);
+    console.log(username);
 
     if(!obj) return setErrorObjView(true);
     if(!username) return setErrorUserNameView(true);
