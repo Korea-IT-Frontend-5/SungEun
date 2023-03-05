@@ -33,7 +33,7 @@ const formReducer = (state, action) => {
       resetState.length = 0;
       return resetState;
     case 'VIEW_FORM':
-      // const viewState = state.filter((user)=>user.isEdit === true);
+      // const viewState = state.filter((viewList)=>viewList.isEdit === true);
       const viewState = [...state];
       {
         viewState.map((viewList) => {
